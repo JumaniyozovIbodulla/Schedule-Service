@@ -1,86 +1,37 @@
 package client
 
-import "user/config"
+import "schedule/config"
 
-type SuperAdminManager interface{}
+type ScheduleManager interface{}
 
-type BrancnesManager interface{}
+type LessonManager interface{}
 
-type GroupsManager interface{}
+type TaskManager interface{}
 
-type ManagersManager interface{}
-
-type AdminsManager interface{}
-
-type SupportTeachersManager interface{}
-
-type TeachersManager interface{}
-
-type StudentsManager interface{}
-
-type EventsManager interface{}
-
-type JoinEventsManager interface{}
+type AttendanceManager interface{}
 
 
-type grpcSuperAdminClients struct{}
+type grpcScheduleClients struct{}
 
-type grpcBranchesClients struct{}
+type grpcLessonClients struct{}
 
-type grpcGroupsClients struct{}
+type grpcTaskClients struct{}
 
-type grpcManagersClients struct{}
-
-type grpcAdminsClients struct{}
-
-type grpcSupportteacherClients struct{}
-
-type grpcTeachersClients struct{}
-
-type grpcStudentClients struct{}
-
-type grpcEventClients struct{}
-
-type grpcEventJoinClients struct{}
+type grpcAttendanceClients struct{}
 
 
-func NewGrpcSuperAdminsClients(cfg config.Config) (SuperAdminManager, error) {
-	return *&grpcSuperAdminClients{}, nil
+func NewGrpcScheduleClients(cfg config.Config) (ScheduleManager, error) {
+	return *&grpcScheduleClients{}, nil
 }
 
-func NewGrpcBranchesClients(cfg config.Config) (BrancnesManager, error) {
-	return *&grpcBranchesClients{}, nil
+func NewGrpcLessonClients(cfg config.Config) (LessonManager, error) {
+	return *&grpcLessonClients{}, nil
 }
 
-func NewGrpcGroupsClients(cfg config.Config) (GroupsManager, error) {
-	return *&grpcGroupsClients{}, nil
+func NewGrpcTaskClients(cfg config.Config) (TaskManager, error) {
+	return *&grpcTaskClients{}, nil
 }
 
-
-func NewGrpcManagersClients(cfg config.Config) (ManagersManager, error) {
-	return *&grpcManagersClients{}, nil
-}
-
-func NewGrpcAdminsClients(cfg config.Config) (AdminsManager, error) {
-	return *&grpcAdminsClients{}, nil
-}
-
-func NewGrpcSupportTeachersClients(cfg config.Config) (SupportTeachersManager, error) {
-	return *&grpcSupportteacherClients{}, nil
-}
-
-func NewGrpcTeachersClients(cfg config.Config) (TeachersManager, error) {
-	return *&grpcTeachersClients{}, nil
-}
-
-func NewGrpcStudentsClients(cfg config.Config) (TeachersManager, error) {
-	return *&grpcTeachersClients{}, nil
-}
-
-func NewGrpcEventsClients(cfg config.Config) (EventsManager, error) {
-	return *&grpcEventClients{}, nil
-}
-
-func NewGrpcEventJoinsClients(cfg config.Config) (JoinEventsManager, error) {
-	return *&grpcEventJoinClients{}, nil
+func NewGrpcAttendanceClients(cfg config.Config) (AttendanceManager, error) {
+	return *&grpcAttendanceClients{}, nil
 }

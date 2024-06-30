@@ -3,10 +3,10 @@ package main
 import (
 	"context"
 	"net"
-	"user/config"
-	"user/grpc"
-	"user/grpc/client"
-	"user/storage/postgres"
+	"schedule/config"
+	"schedule/grpc"
+	"schedule/grpc/client"
+	"schedule/storage/postgres"
 
 	"github.com/saidamir98/udevs_pkg/logger"
 )
@@ -37,67 +37,31 @@ func main() {
 
 	defer pgStore.CloseDB()
 
-	superAdmin, err := client.NewGrpcSuperAdminsClients(cfg)
+	schedule, err := client.NewGrpcScheduleClients(cfg)
 
 	if err != nil {
-		log.Panic("client.NewGrpcSuperAdminsClients: ", logger.Error(err))
+		log.Panic("client.NewGrpcScheduleClients: ", logger.Error(err))
 	}
 
-	branch, err := client.NewGrpcBranchesClients(cfg)
+	lesson, err := client.NewGrpcLessonClients(cfg)
 
 	if err != nil {
-		log.Panic("client.NewGrpcBranchesClients: ", logger.Error(err))
+		log.Panic("client.NewGrpcLessonClients: ", logger.Error(err))
 	}
 
-	groups, err := client.NewGrpcGroupsClients(cfg)
+	tasks, err := client.NewGrpcTaskClients(cfg)
 
 	if err != nil {
-		log.Panic("client.NewGrpcGroupsClients: ", logger.Error(err))
+		log.Panic("client.NewGrpcTaskClients: ", logger.Error(err))
 	}
 
-	managers, err := client.NewGrpcManagersClients(cfg)
+	attendance, err := client.NewGrpcAttendanceClients(cfg)
 
 	if err != nil {
-		log.Panic("client.NewGrpcManagersClients: ", logger.Error(err))
+		log.Panic("client.NewGrpcAttendanceClients: ", logger.Error(err))
 	}
 
-	admins, err := client.NewGrpcAdminsClients(cfg)
-
-	if err != nil {
-		log.Panic("client.NewGrpcAdminsClients: ", logger.Error(err))
-	}
-
-	supportTeacher, err := client.NewGrpcSupportTeachersClients(cfg)
-
-	if err != nil {
-		log.Panic("client.NewGrpcSupportTeachersClients: ", logger.Error(err))
-	}
-
-	teacher, err := client.NewGrpcTeachersClients(cfg)
-
-	if err != nil {
-		log.Panic("client.NewGrpcTeachersClients: ", logger.Error(err))
-	}
-
-	student, err := client.NewGrpcStudentsClients(cfg)
-
-	if err != nil {
-		log.Panic("client.NewGrpcStudentsClients: ", logger.Error(err))
-	}
-
-	events, err := client.NewGrpcEventsClients(cfg)
-
-	if err != nil {
-		log.Panic("client.NewGrpcEventsClients: ", logger.Error(err))
-	}
-
-	joinevents, err := client.NewGrpcEventJoinsClients(cfg)
-
-	if err != nil {
-		log.Panic("client.NewGrpcEventJoinsClients: ", logger.Error(err))
-	}
-
-	grpcServer := grpc.SetUpServer(cfg, log, pgStore, superAdmin, branch, groups, managers, admins, supportTeacher, teacher, student, events, joinevents)
+	grpcServer := grpc.SetUpServer(cfg, log, pgStore, schedule, lesson, tasks, attendance)
 
 	lis, err := net.Listen("tcp", cfg.ContentGRPCPort)
 

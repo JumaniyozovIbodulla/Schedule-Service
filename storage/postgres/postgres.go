@@ -3,25 +3,19 @@ package postgres
 import (
 	"context"
 	"fmt"
-	"user/config"
-	"user/storage"
+	"schedule/config"
+	"schedule/storage"
 
 	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 type Store struct {
-	db             *pgxpool.Pool
-	superAdmin     storage.SuperAdminRepo
-	branch         storage.BranchRepo
-	group          storage.GroupRepo
-	manager        storage.ManagerRepo
-	admins         storage.AdminRepo
-	supportTeacher storage.SupportTeacherRepo
-	teacher        storage.TeacherRepo
-	student        storage.StudentRepo
-	event          storage.EventRepo
-	eventJoin      storage.EventJoinRepo
+	db         *pgxpool.Pool
+	schedule   storage.ScheduleRepo
+	lesson     storage.LessonRepo
+	task       storage.TaskRepo
+	attendance storage.AttendanceRepo
 }
 
 func NewPostgres(ctx context.Context, cfg config.Config) (storage.IStorage, error) {
@@ -64,72 +58,30 @@ func (l *Store) Log(ctx context.Context, level pgx.LogLevel, msg string, data ma
 	fmt.Println(args...)
 }
 
-func (s *Store) SuperAdmin() storage.SuperAdminRepo {
-	if s.superAdmin == nil {
-		s.superAdmin = NewSuperAdminRepo(s.db)
+func (s *Store) Schedule() storage.ScheduleRepo {
+	if s.schedule == nil {
+		s.schedule = NewScheduleRepo(s.db)
 	}
-	return s.superAdmin
+	return s.schedule
 }
 
-func (s *Store) Branch() storage.BranchRepo {
-	if s.branch == nil {
-		s.branch = NewBranchRepo(s.db)
+func (s *Store) Lesson() storage.LessonRepo {
+	if s.lesson == nil {
+		s.lesson = NewLessonRepo(s.db)
 	}
-	return s.branch
+	return s.lesson
 }
 
-func (s *Store) Groups() storage.GroupRepo {
-	if s.group == nil {
-		s.group = NewGroupRepo(s.db)
+func (s *Store) Task() storage.TaskRepo {
+	if s.task == nil {
+		s.task = NewTaskRepo(s.db)
 	}
-	return s.group
+	return s.task
 }
 
-func (s *Store) Manager() storage.ManagerRepo {
-	if s.manager == nil {
-		s.manager = NewManagerRepo(s.db)
+func (s *Store) Attendance() storage.AttendanceRepo {
+	if s.attendance == nil {
+		s.attendance = NewAttendanceRepo(s.db)
 	}
-	return s.manager
-}
-
-func (s *Store) Admins() storage.AdminRepo {
-	if s.admins == nil {
-		s.admins = NewAdminRepo(s.db)
-	}
-	return s.admins
-}
-
-func (s *Store) SupportTeacher() storage.SupportTeacherRepo {
-	if s.supportTeacher == nil {
-		s.supportTeacher = NewSupportTeacher(s.db)
-	}
-	return s.supportTeacher
-}
-
-func (s *Store) Teacher() storage.TeacherRepo {
-	if s.teacher == nil {
-		s.teacher = NewTeacherRepo(s.db)
-	}
-	return s.teacher
-}
-
-func (s *Store) Student() storage.StudentRepo {
-	if s.student == nil {
-		s.student = NewStudentRepo(s.db)
-	}
-	return s.student
-}
-
-func (s *Store) Event() storage.EventRepo {
-	if s.event == nil {
-		s.event = NewEventRepo(s.db)
-	}
-	return s.event
-}
-
-func (s *Store) EventJoin() storage.EventJoinRepo {
-	if s.eventJoin == nil {
-		s.eventJoin = NewEventJoinRepo(s.db)
-	}
-	return s.eventJoin
+	return s.attendance
 }
