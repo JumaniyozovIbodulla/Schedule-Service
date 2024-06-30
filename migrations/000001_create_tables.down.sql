@@ -1,0 +1,5 @@
+DROP TABLE IF EXISTS "attendances";
+DROP TABLE IF EXISTS "tasks";
+DROP TABLE IF EXISTS "lessons";
+DROP TABLE IF EXISTS "schedules";
+DROP TYPE IF EXISTS "attend_type";
